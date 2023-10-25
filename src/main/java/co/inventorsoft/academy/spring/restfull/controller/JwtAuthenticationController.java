@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -57,7 +58,7 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto userDto) {
         userDetailsService.save(userDto);
 
         return ResponseEntity.ok(String.format("User %s was registered successfully!", userDto.getUsername()));
