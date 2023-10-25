@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 public class OrderDto {
     private Long id;
-    private Long item_id;
-    private Long customer_id;
-    private String customer_firstname;
-    private String customer_lastname;
+    private Long itemId;
+    private Long userId;
+    private String userFirstName;
+    private String userLastName;
     private String phone;
-    private Boolean is_paid;
+    private Boolean isPaid;
 }
