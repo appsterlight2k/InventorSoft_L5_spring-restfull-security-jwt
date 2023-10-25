@@ -37,7 +37,7 @@ CREATE TABLE orders(
 
 INSERT INTO users(username, firstname, lastname, email, phone, password, role, comments)
 VALUES
-	('Rembo', 'John', 'Rembo', 'john_rembo@gmail.com', '+1-534-215-94-16', '$2a$08$MXsNR1AjKHhuXChnpB40MO07HpBq20bYJOsktpFOM60DGuCahFl2K', 'ROLE_ADMIN', 'Very shy guy'), #pass: 'One blood'
+	('Rambo', 'John', 'Rembo', 'john_rembo@gmail.com', '+1-534-215-94-16', '$2a$12$aw/kJBYsVtsZEdSKzW/1veKpDlbsaBO0Hx6Cy3MLdN9wIv3xDC34u', 'ROLE_ADMIN', 'Very shy guy'), #pass: 'First blood'
     ('SarrahTheSkyNetDestroyer', 'Sarah', 'Connor', 'sarrah_o_connor@yahoo.com', '+1-243-452-34-34', '$2a$08$hU6YaNaUnpmD6KQ4HEYj2OXX77TCdwKck2KBIMa76B/R35cqEaIky', 'ROLE_USER', 'Calm person'), #pass: 'SkynetWatchingYou#@553'
     ('Jedi_Obi_Wan', 'Obi-Wan', 'Kenobi', 'obi.one@mail.com', '+1-224-235-46-12', '$2a$08$BhH4M0JtKM6cht2hRrv0ZOoECYtSVp35jwNVWbPUPte0cyny0sfq.', 'ROLE_USER', 'Star Wars fan'); #pass: 'LittleYoda123'
 
