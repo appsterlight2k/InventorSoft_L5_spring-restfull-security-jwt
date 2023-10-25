@@ -24,15 +24,14 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String name;
-    @Column
     private Integer count;
-    @Column
     private Double price;
-    @Column
-    private String article_num;
-    @Column
+
+    @Column(name = "article_num")
+    private String articleNum;
+
     private String description;
 
 }

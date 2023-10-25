@@ -24,16 +24,21 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long item_id;
-    @Column
-    private Long user_id;
-    @Column
-    private String user_firstname;
-    @Column
-    private String user_lastname;
-    @Column
+
+    @Column(name = "item_id")
+    private Long itemId;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "user_firstname")
+    private String userFirstName;
+
+    @Column(name = "user_lastname")
+    private String userLastName;
+
     private String phone;
-    @Column
-    private Boolean is_paid;
+
+    @Column(name = "is_paid")
+    private Boolean isPaid;
 }

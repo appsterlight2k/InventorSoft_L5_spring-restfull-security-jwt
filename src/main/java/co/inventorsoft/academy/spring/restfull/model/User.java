@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,26 +26,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String username;
-    @Column
     private String firstname;
-    @Column
     private String lastname;
-    @Column
     private String email;
-    @Column
     private String phone;
 
-    @Column
     @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column
     private Role role;
 
-    @Column
     private String comments;
 
 }
