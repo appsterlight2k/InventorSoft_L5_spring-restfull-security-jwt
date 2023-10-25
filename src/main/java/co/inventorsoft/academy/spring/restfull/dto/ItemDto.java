@@ -26,7 +26,7 @@ public class ItemDto {
     private Double price;
 
     @NotNull
-    private String article_num;
+    private String articleNum;
 
     private String description;
 
