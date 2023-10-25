@@ -53,13 +53,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-      httpSecurity.csrf().disable()
+      httpSecurity
+              .csrf().disable()
               // don't authenticate the authenticate request
-              .authorizeRequests().antMatchers("/sign-in", "/sign-up").permitAll().
+              .authorizeRequests().antMatchers("/sign-in", "/sign-up").permitAll()
 
               // all other requests need to be authenticated
-                      anyRequest().authenticated().and().
-              exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+              .anyRequest().authenticated().and()
+              .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
               .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
       //a filter to validate the tokens with every request
