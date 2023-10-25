@@ -16,43 +16,40 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Collections;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
-
     private UserRepository userRepository;
-    @Autowired
-    MapperUtil mapperUtil;
-
-    @Autowired
     private PasswordEncoder bcryptEncoder;
+    private MapperUtil mapperUtil;
 
     @Autowired
-    public JwtUserDetailsService(UserRepository userRepository) {
+    public JwtUserDetailsService(PasswordEncoder bcryptEncoder, UserRepository userRepository, MapperUtil mapperUtil) {
+        this.bcryptEncoder = bcryptEncoder;
         this.userRepository = userRepository;
+        this.mapperUtil = mapperUtil;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException(String.format("User %s wasn't found: ", username )));
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
-        List<GrantedAuthority> authorities = Collections.singletonList(authority);
-
+        List<GrantedAuthority> authorities = List.of(authority);
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
+    @Transactional
     public User save(UserDto userDto) {
-
-        if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException(String.format("A user with the name %s already exists!", userDto.getUsername()));
-        }
+        userRepository.findByUsername(userDto.getUsername())
+                .ifPresent(user -> {
+                    throw new UserAlreadyExistsException(String.format("A user with the name %s already exists!", userDto.getUsername()));
+                });
 
         User user = mapperUtil.convertToEntity(userDto, User.class);
         user.setRole(Role.ROLE_USER);
