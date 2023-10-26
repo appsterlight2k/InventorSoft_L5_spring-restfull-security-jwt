@@ -15,6 +15,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -51,17 +56,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-  @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
-      httpSecurity
-              .csrf().disable()
-              // don't authenticate the authenticate request
-              .authorizeRequests().antMatchers("/sign-in", "/sign-up").permitAll()
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
 
-              // all other requests need to be authenticated
-              .anyRequest().authenticated().and()
-              .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-              .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        return source;
+    }
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors().and()
+                .csrf()
+                .ignoringAntMatchers("/sign-in", "/form-page").and()
+
+                // don't authenticate the authenticate request
+                .authorizeRequests()
+                .antMatchers("/sign-in", "/sign-up", "/form-page", "/csrf-check-endpoint", "/endpoint-for-localhost")
+                .permitAll()
+
+                // all other requests need to be authenticated
+                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
       //a filter to validate the tokens with every request
       httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
