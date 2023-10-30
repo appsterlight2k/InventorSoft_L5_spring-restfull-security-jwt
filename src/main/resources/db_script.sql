@@ -11,7 +11,7 @@ CREATE TABLE users (
     email VARCHAR(300) NOT NULL,
     phone VARCHAR(100) NOT NULL,
     password VARCHAR(300) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('ROLE_USER', 'ROLE_ADMIN')),
+    role VARCHAR(20) NOT NULL,
     comments VARCHAR(5000)
 );
 
